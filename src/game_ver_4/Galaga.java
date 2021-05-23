@@ -1,4 +1,4 @@
-package game_ver_2;
+package game_ver_4;
 
 import java.awt.Graphics;
 import java.awt.Image;
@@ -28,7 +28,9 @@ public class Galaga extends JFrame{
 		//default∞™¿Ã false¿”
 		
 		introBackground = new ImageIcon(Main.class.getResource("../images/introBackGround.jpg")).getImage();
-		//introBackground = new ImageIcon(Main.class.getResource("../images/logo.png")).getImage();
+		
+		Music introMusic = new Music("intro_music.mp3",true);
+		introMusic.start();
 	}
 	
 	public void paint(Graphics g) {

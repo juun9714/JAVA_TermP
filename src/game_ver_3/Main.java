@@ -1,4 +1,4 @@
-package game_ver_2;
+package game_ver_3;
 
 public class Main {
 
@@ -16,3 +16,4 @@ public class Main {
 
 
 //ver2. 시작 배경화면 정해주기 
+//ver3. 배경음악 정해주기 
