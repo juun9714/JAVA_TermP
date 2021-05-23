@@ -14,7 +14,11 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class Galaga extends JFrame {
-
+	
+	private Game game=new Game();
+	Music introMusic = new Music("intro_music.mp3", true);
+	Music gameMusic= new Music("funky.mp3",true);
+	Music endMusic= new Music("onceagain.mp3",true);
 	private Image screenImage;
 	private Graphics screenGraphic;
 	// double-buffering을 위해서 전체 화면에 대한 이미지를 담는 두 인스턴스
@@ -178,11 +182,13 @@ public class Galaga extends JFrame {
 				//start button 안보이게 
 				background=new ImageIcon(Main.class.getResource("../images/MainBackGround.jpg")).getImage();
 				//background에 들어갈 이미지 파일 변경 -> paintComponent를 사용한 이유 -> 배경 사진이 변경된다. 
+				introMusic.close();
+				quitButton.setBounds(10, 650, 64, 64);
+				gameMusic.start();
+				game.start();
 			}
 		});
 		add(startButton);
-		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
-		
 		
 
 		menuBar.setBounds(0,0,1280,30);
@@ -206,8 +212,6 @@ public class Galaga extends JFrame {
 			}
 		});
 		add(menuBar);
-		
-		Music introMusic = new Music("intro_music.mp3", true);
 		introMusic.start();
 	}
 
