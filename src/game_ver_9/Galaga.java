@@ -1,4 +1,4 @@
-package game_ver_8;
+package game_ver_9;
 
 import java.awt.Color;
 import java.awt.Cursor;
@@ -52,6 +52,9 @@ public class Galaga extends JFrame {
 	private ImageIcon hardButtonEnteredImage=new ImageIcon(Main.class.getResource("../images/two_clked.png"));
 	private ImageIcon hardButtonBasicImage=new ImageIcon(Main.class.getResource("../images/two.png"));
 	
+	private ImageIcon backButtonEnteredImage=new ImageIcon(Main.class.getResource("../images/back_clked.png"));
+	private ImageIcon backButtonBasicImage=new ImageIcon(Main.class.getResource("../images/back.png"));
+	
 	
 	private JButton exitButton = new JButton(exitButtonBasicImage);
 	private JButton quitButton = new JButton(quitButtonBasicImage);
@@ -60,6 +63,7 @@ public class Galaga extends JFrame {
 	private JButton rightButton = new JButton(rightButtonBasicImage);
 	private JButton easyButton = new JButton(easyButtonBasicImage);
 	private JButton hardButton = new JButton(hardButtonBasicImage);
+	private JButton backButton = new JButton(backButtonBasicImage);
 	
 	//MUSIC
 	ArrayList<Track> trackList = new ArrayList<Track>();
@@ -203,25 +207,9 @@ public class Galaga extends JFrame {
 			
 			@Override
 			public void mousePressed(MouseEvent e) {
-				Music buttonEnteredMusic = new Music("click_music.mp3",false);
-				//false -> 한번만 실행해준다는 뜻
-				buttonEnteredMusic.start();
-				//게임 시작 이벤트
-				startButton.setVisible(false);
-				//start button 안보이게 
-				background=new ImageIcon(Main.class.getResource("../images/MainBackGround.jpg")).getImage();
-				//background에 들어갈 이미지 파일 변경 -> paintComponent를 사용한 이유 -> 배경 사진이 변경된다. 
-				introMusic.close();
-				//intro 뮤직 종료
-				selectTrack(0);
-				isMainScreen=true;
-				leftButton.setVisible(true);
-				rightButton.setVisible(true);
-				easyButton.setVisible(true);
-				hardButton.setVisible(true);
-				quitButton.setBounds(10, 650, 64, 64);
-			
-				//game.start();
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();//게임 시작 이벤트
+				enterMain();
 			}
 		});
 		add(startButton);
@@ -380,6 +368,54 @@ public class Galaga extends JFrame {
 		add(hardButton);
 		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
 		
+		
+		backButton.setVisible(false);
+		//처음엔 안보이도록
+		backButton.setBounds(20, 50, 150, 150);
+		backButton.setBorderPainted(false);
+		backButton.setContentAreaFilled(false);
+		backButton.setFocusPainted(false);
+		backButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				backButton.setIcon(backButtonEnteredImage);
+				//마우스가 올라갔을때 entered 이미지로 바꿔준는 뜻
+				backButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				//마우스가 exit 버튼에 올라갔을 때, 커서를 손 모양으로 바꿔줌
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				backButton.setIcon(backButtonBasicImage);
+				//마우스가 다시 내려갔을 때, basic 이미지로 바꿔주기
+				backButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				//마우스가 다시 내려갔을 때, 기본 커서로 바꿔주기 
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+				//main화면으로 돌아가는 이벤트
+				backMain();
+			}
+		});
+		add(backButton);
+		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
 		menuBar.setBounds(0,0,1280,30);
 		menuBar.addMouseListener(new MouseAdapter() {
 			@Override
@@ -470,12 +506,40 @@ public class Galaga extends JFrame {
 		}
 		isMainScreen=false;
 		//이제 메인 아님
+		backButton.setVisible(true);
 		leftButton.setVisible(false);
 		rightButton.setVisible(false);
 		easyButton.setVisible(false);
 		hardButton.setVisible(false);
 		
+		
 		background = new ImageIcon(Main.class.getResource("../images/"+trackList.get(nowSelected).getGameImage())).getImage();
+	}
+	
+	public void backMain() {
+		isMainScreen=true;
+		backButton.setVisible(false);
+		leftButton.setVisible(true);
+		rightButton.setVisible(true);
+		easyButton.setVisible(true);
+		hardButton.setVisible(true);
+		background = new ImageIcon(Main.class.getResource("../images/MainBackGround.jpg")).getImage();
+		selectTrack(nowSelected);
+	}
+	
+	public void enterMain() {
+		selectTrack(0);
+		background=new ImageIcon(Main.class.getResource("../images/MainBackGround.jpg")).getImage();
+		//background에 들어갈 이미지 파일 변경 -> paintComponent를 사용한 이유 -> 배경 사진이 변경된다.
+		isMainScreen=true;
+		startButton.setVisible(false);//start button 안보이게 
+		leftButton.setVisible(true);
+		rightButton.setVisible(true);
+		easyButton.setVisible(true);
+		hardButton.setVisible(true);
+		quitButton.setBounds(10, 650, 64, 64);
+		introMusic.close();//intro 뮤직 종료
+		//game.start();
 	}
 	
 }
