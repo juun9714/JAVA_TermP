@@ -19,7 +19,7 @@ public class Galaga extends JFrame {
 	private Graphics screenGraphic;
 	// double-buffering을 위해서 전체 화면에 대한 이미지를 담는 두 인스턴스
 
-	private Image introBackground = new ImageIcon(Main.class.getResource("../images/introBackGround.jpg")).getImage();
+	private Image background = new ImageIcon(Main.class.getResource("../images/introBackGround.jpg")).getImage();
 	// 이미지를 담을 객체
 	private JLabel menuBar = new JLabel(new ImageIcon(Main.class.getResource("../images/bar.png")));
 	
@@ -30,6 +30,15 @@ public class Galaga extends JFrame {
 	private int mouseX, mouseY;
 	//메뉴바를 드래그했을 때, 뭐가 변경되도록 해주겠음 현재 프로그램에서 마우스의 x,y좌표
 	
+	
+	private ImageIcon startButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/start_clked.png"));
+	private ImageIcon startButtonBasicImage = new ImageIcon(Main.class.getResource("../images/start.png"));
+	
+	private ImageIcon quitButtonEnteredImage = new ImageIcon(Main.class.getResource("../images/quit_clked.png"));
+	private ImageIcon quitButtonBasicImage = new ImageIcon(Main.class.getResource("../images/quit.png"));
+	
+	private JButton quitButton = new JButton(quitButtonBasicImage);
+	private JButton startButton = new JButton(startButtonBasicImage);
 
 	public Galaga() {
 		setUndecorated(true);
@@ -92,6 +101,88 @@ public class Galaga extends JFrame {
 		add(exitButton);
 		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
 		
+		quitButton.setBounds(40, 330, 64, 64);
+		quitButton.setBorderPainted(false);
+		quitButton.setContentAreaFilled(false);
+		quitButton.setFocusPainted(false);
+		quitButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				quitButton.setIcon(quitButtonEnteredImage);
+				//마우스가 올라갔을때 entered 이미지로 바꿔준는 뜻
+				quitButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				//마우스가 exit 버튼에 올라갔을 때, 커서를 손 모양으로 바꿔줌
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				quitButton.setIcon(quitButtonBasicImage);
+				//마우스가 다시 내려갔을 때, basic 이미지로 바꿔주기
+				quitButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				//마우스가 다시 내려갔을 때, 기본 커서로 바꿔주기 
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+				try {
+					Thread.sleep(1000);
+					//버튼 효과음을 다 듣고 종료 
+				}catch(InterruptedException ex) {
+					ex.printStackTrace();
+				}
+				System.exit(0);
+				//exit 버튼 눌렀을 때, 게임이 종료됨 
+			}
+		});
+		add(quitButton);
+		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
+		
+		
+		startButton.setBounds(40, 200, 64, 64);
+		startButton.setBorderPainted(false);
+		startButton.setContentAreaFilled(false);
+		startButton.setFocusPainted(false);
+		startButton.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				startButton.setIcon(startButtonEnteredImage);
+				//마우스가 올라갔을때 entered 이미지로 바꿔준는 뜻
+				startButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				//마우스가 exit 버튼에 올라갔을 때, 커서를 손 모양으로 바꿔줌
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				startButton.setIcon(startButtonBasicImage);
+				//마우스가 다시 내려갔을 때, basic 이미지로 바꿔주기
+				startButton.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+				//마우스가 다시 내려갔을 때, 기본 커서로 바꿔주기 
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				Music buttonEnteredMusic = new Music("click_music.mp3",false);
+				//false -> 한번만 실행해준다는 뜻
+				buttonEnteredMusic.start();
+				//게임 시작 이벤트
+				startButton.setVisible(false);
+				//start button 안보이게 
+				background=new ImageIcon(Main.class.getResource("../images/MainBackGround.jpg")).getImage();
+				//background에 들어갈 이미지 파일 변경 -> paintComponent를 사용한 이유 -> 배경 사진이 변경된다. 
+			}
+		});
+		add(startButton);
+		// exitButton 기본적으로 제공되는 템플릿이 있는데, 우리가 생각한 모양이 아니기 때문에 바꿔줘야 한다.
+		
 		
 
 		menuBar.setBounds(0,0,1280,30);
@@ -132,7 +223,7 @@ public class Galaga extends JFrame {
 	}
 
 	public void screenDraw(Graphics g) {
-		g.drawImage(introBackground, 0, 0, null);
+		g.drawImage(background, 0, 0, null);
 		// 인트로 백그라운드를 0,0 위치에 그려줌 매번 바뀌는 이미지의 경우에 사용함
 		paintComponents(g);
 		// 이미지를 단순하게 스크린 이미지 변수안에 그려주는 것 이외에
