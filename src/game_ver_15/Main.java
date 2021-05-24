@@ -1,12 +1,13 @@
-package game_ver_13;
+package game_ver_15;
 
 public class Main {
 
 	
 	public static final int SCREEN_WIDTH = 1280;
 	public static final int SCREEN_HEIGHT = 720;
-	public static final int NOTE_SPEED = 7; //note speed
+	public static final int NOTE_SPEED = 3; //note speed
 	public static final int SLEEP_TIME = 10; //노트가 새로 생성되는 속도?
+	public static final int REACH_TIME = 2; //노트가 새로 생성되는 속도?
 	//public static : 프로젝트 내에서 모두가 사용할 수 있음
 	
 	public static void main(String[] args) {
@@ -22,4 +23,3 @@ public class Main {
 //ver5. 화면 전환 (by button)
 //ver9. 리팩토링
 //ver10. game화면 디자인 
-//ver.13 박자에 맞춰서 note 나오게 
