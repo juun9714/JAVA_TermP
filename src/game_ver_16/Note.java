@@ -1,4 +1,4 @@
-package game_ver_15;
+package game_ver_16;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
