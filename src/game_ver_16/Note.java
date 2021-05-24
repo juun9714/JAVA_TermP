@@ -90,25 +90,36 @@ public class Note extends Thread {
 		}
 	}
 	
-	public void judge() {
+	public String judge() {
 		if(y>=613) {
 			System.out.println("LATE");
 			close();
+			return "Late";
 		}else if(y>=600) {
 			System.out.println("GOOD");
 			close();
+			return "Good";
 		}else if(y>=587) {
 			System.out.println("GREAT");
 			close();
+			return "Great";
 		}else if(y>=573) {
 			System.out.println("PERFECT");
 			close();
+			return "Perfect";
 		}else if(y>=565) {
 			System.out.println("GREAT");
 			close();
+			return "Great";
 		}else if(y>=550) {
 			System.out.println("EARLY");
 			close();
+			return "Early";
 		}
+		return "None";
+	}
+	
+	public int getY() {
+		return y;
 	}
 }
